@@ -52,3 +52,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Dateset extensions
+data_sets/*.csv

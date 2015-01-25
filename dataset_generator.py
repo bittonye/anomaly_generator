@@ -10,8 +10,8 @@ users = ['user1','user2','user3','user4','user5']
 features = ['feature1','feature2','feature3','feature4','feature5']
 
 for user in users:
-	with open(path+user+'.csv', 'w') as csvfile:
-		writer = csv.DictWriter(csvfile, fieldnames=features)
+	with open("data_sets\\"+user+'.csv', 'w') as csvfile:
+		writer = csv.DictWriter(csvfile, delimiter=',', lineterminator='\n', fieldnames=features)
 		writer.writeheader()
 		for i in range(1,ROW_NUM):
 			featDic = {}
