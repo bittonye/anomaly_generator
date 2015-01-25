@@ -2,7 +2,7 @@ import csv
 import os
 
 # execfile("C:\\Users\\YONI\\Documents\\Projects\\degree\\attack detection methods\\anomaly_generator\\dataset_generator.py")
-ROW_NUM = 10
+ROW_NUM = 100
 
 path = "C:\\Users\\YONI\\Documents\\anomally_detector\\data_sets\\example\\"
 

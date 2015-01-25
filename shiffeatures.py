@@ -9,7 +9,10 @@ path = 'data_sets\\' #"C:\\Users\\YONI\\Documents\\anomally_detector\\data_sets\
 directory = 'res_sets'
 res_path = directory+'\\'
 test_set_size = 20
+minimal_substitute_features = 3
 files_dict = {}
+
+features = []
 
 csv_files = [ f for f in listdir(path) if (isfile(join(path,f)) and (f.endswith('.csv'))) ]
 if not os.path.exists(directory):
@@ -45,13 +48,18 @@ for csv_file_name in csv_files:
 			writer.writeheader()
 			writer.writerows(train_rows_list)
 
+
 for csv_file in files_dict:
-	for other_file in files_dict:
+	all_files = files_dict.keys()
+	random.shuffle(all_files)
+	chosen_fetures_num = random.randint(len(features)/minimal_substitute_features, len(features))
+	feature_samples = random.sample(features,chosen_fetures_num)
+	for other_file in all_files:
 		if csv_file == other_file:
 			continue
 		for row1, row2 in zip(files_dict[csv_file],files_dict[other_file]):
-			chosen_fetures_num = random.randint(1, len(row2.keys()))
-			row2_samples = random.sample(row2.keys(),chosen_fetures_num)
+			row2_sample_num = random.randint(1, len(feature_samples))
+			row2_samples = random.sample(feature_samples,row2_sample_num)
 			for sample in row2_samples:
 				row1[sample] = row2[sample]
 	with open(res_path + csv_file + '.test', 'w') as writecsvfile:
