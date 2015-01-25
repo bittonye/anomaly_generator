@@ -1,4 +1,5 @@
 import csv
+import os
 
 # execfile("C:\\Users\\YONI\\Documents\\Projects\\degree\\attack detection methods\\anomaly_generator\\dataset_generator.py")
 ROW_NUM = 10
