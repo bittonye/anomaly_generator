@@ -3,7 +3,7 @@ import random
 import os
 from os import listdir
 from os.path import isfile, join
-
+from collections import OrderedDict
 
 path = 'data_sets\\' #"C:\\Users\\YONI\\Documents\\anomally_detector\\data_sets\\example\\"
 directory = 'res_sets'
@@ -11,7 +11,7 @@ res_path = directory+'\\'
 test_set_size = 20
 minimal_substitute_features = 3
 files_dict = {}
-
+user_delimiter = ','
 features = []
 
 csv_files = [ f for f in listdir(path) if (isfile(join(path,f)) and (f.endswith('.csv'))) ]
@@ -22,6 +22,12 @@ for csv_file_name in csv_files:
 	files_dict[csv_file_name] = []
 	test_rows = 0
 	train_rows = 0
+	features = OrderedDict()
+	with open(path+csv_file_name, 'r') as f:
+		first_line = f.readline()
+		for item in first_line.split(user_delimiter):
+			item = item.strip()
+			features[item] = 0
 	with open(path+csv_file_name) as csvfile:
 		reader = csv.DictReader(csvfile)
 		row_count = sum(1 for row in reader)
@@ -34,10 +40,10 @@ for csv_file_name in csv_files:
 		csvfile.seek(0)
 		csvfile.next()
 		train_rows_list = []
-		features = []
 		for row in reader:
 			if index == 1:
-				features = list(row.keys())
+				index = index + 1
+				continue
 			if index in test_rows_chosen:
 				files_dict[csv_file_name].append(row)
 			else:
