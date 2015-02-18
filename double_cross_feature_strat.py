@@ -12,13 +12,13 @@ def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_set
 	if "minimal_substitute_features" not in kwargs: 
 		minimal_substitute_features = 3
 	else:
-		minimal_substitute_features = kwargs[minimal_substitute_features]
+		minimal_substitute_features = kwargs["minimal_substitute_features"]
 	files_dict = {}
 	user_delimiter = delim
 
 	csv_files = [ f for f in listdir(path) if (isfile(join(path,f)) and (f.endswith('.csv'))) ]
-	if not os.path.exists(directory):
-		os.makedirs(directory)
+	if not os.path.exists(destpath):
+		os.makedirs(destpath)
 
 	for csv_file_name in csv_files:
 		files_dict[csv_file_name] = []

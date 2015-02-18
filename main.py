@@ -47,7 +47,7 @@ if args.dcf:
 		mfs = args.mfs
 	else:
 		mfs = 3
-	prec_strat.generate(srcpath,destpath,test_size,delim,minimal_substitute_features=mfs)
+	dcf_strat.generate(srcpath,destpath,test_size,delim,minimal_substitute_features=mfs)
 
 elif args.precent:
 	if args.mfs:
