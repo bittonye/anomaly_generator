@@ -1,6 +1,7 @@
 import csv
 import random
 import os
+import copy
 from os import listdir
 from os.path import isfile, join
 from collections import OrderedDict
@@ -9,7 +10,7 @@ from test_gen_strategy import TestGenStrategy
 def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_sets\\",test_set_size=20,delim=",",**kwargs) :
 	path = srcpath
 	res_path = destpath
-	if "minimal_substitute_features" not in kwargs: 
+	if "minimal_substitute_features" not in kwargs:
 		minimal_substitute_features = 3
 	else:
 		minimal_substitute_features = kwargs["minimal_substitute_features"]
@@ -30,6 +31,7 @@ def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_set
 			for item in first_line.split(user_delimiter):
 				item = item.strip()
 				features[item] = 0
+			features["class"] = 0
 		with open(path+csv_file_name) as csvfile:
 			reader = csv.DictReader(csvfile)
 			row_count = sum(1 for row in reader)
@@ -47,6 +49,7 @@ def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_set
 					index = index + 1
 					continue
 				if index in test_rows_chosen:
+					row["class"] = "good"
 					files_dict[csv_file_name].append(row)
 				else:
 					train_rows_list.append(row)
@@ -58,6 +61,7 @@ def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_set
 
 
 	for csv_file in files_dict:
+		tmp_list = copy.deepcopy(files_dict[csv_file])
 		all_files = files_dict.keys()
 		random.shuffle(all_files)
 		chosen_fetures_num = random.randint(len(features)/minimal_substitute_features, len(features))
@@ -70,7 +74,8 @@ def createTestSetDoubleCrossFeature(self,srcpath="data_sets\\",destpath="res_set
 				row2_samples = random.sample(feature_samples,row2_sample_num)
 				for sample in row2_samples:
 					row1[sample] = row2[sample]
+				row1["class"] = "bad"
 		with open(res_path + csv_file + '.test', 'w') as writecsvfile:
 				writer = csv.DictWriter(writecsvfile, delimiter=',', lineterminator='\n', fieldnames=features)
 				writer.writeheader()
-				writer.writerows(files_dict[csv_file])
+				writer.writerows(files_dict[csv_file]+tmp_list)
